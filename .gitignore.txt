@@ -1,0 +1,6 @@
+# Ignorar todo lo que no sea del proyecto
+*
+!index.html
+!style.css
+!script.js
+!key.txt
