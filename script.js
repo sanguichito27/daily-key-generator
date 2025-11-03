@@ -29,4 +29,8 @@ function updateCountdown() {
         `Cambio de clave en: ${hours}h ${minutes}m ${seconds}s`;
 }
 setInterval(updateCountdown, 1000);
+<<<<<<< HEAD
 updateCountdown();
+=======
+updateCountdown();
+>>>>>>> f4ba75b8d1255d924b9cb84ee4347e8ad1102cdf

@@ -1,0 +1,1 @@
+# daily-key-generator
