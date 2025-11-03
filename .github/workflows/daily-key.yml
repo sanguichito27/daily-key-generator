@@ -1,23 +1,33 @@
 name: Generar clave diaria
 
+# Se ejecuta todos los días a la medianoche y también manualmente
 on:
   schedule:
-    - cron: "0 0 * * *"  # se ejecuta a medianoche UTC
-  workflow_dispatch:    # permite ejecutarlo manualmente
+    - cron: '0 0 * * *' # UTC
+  workflow_dispatch:
 
 jobs:
-  generar_key:
+  generar_clave:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Generar clave
+      - name: Hacer checkout del repositorio
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false  # Importante para usar GITHUB_TOKEN
+
+      - name: Generar clave diaria
         run: |
-          KEY="KEY-$(date +%s | sha256sum | head -c 10)"
-          echo $KEY > key.txt
-      - name: Commit y push
+          # Genera un código aleatorio
+          echo "KEY-$(date +%s)" > key.txt
+
+      - name: Commit y push de la clave
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add key.txt
           git commit -m "Actualizar clave diaria"
-          git push
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
