@@ -2,31 +2,28 @@ name: Daily Key Generator
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Esto corre todos los días a medianoche UTC
-  workflow_dispatch:    # Esto permite ejecutarlo manualmente también
+    - cron: '0 0 * * *'  # todos los días a medianoche UTC
+  workflow_dispatch:    # para ejecutar manualmente
 
 jobs:
   update-key:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_TOKEN }}   # <--- aquí usamos tu token
-          
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+          token: ${{ secrets.GH_TOKEN }}   # usa el token aquí
 
       - name: Generate new key
         run: |
           echo "KEY-$(date +%s)" > key.txt
 
-      - name: Commit and push new key
+      - name: Commit and push
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add key.txt
           git commit -m "Actualizar clave diaria"
           git push
+
 
