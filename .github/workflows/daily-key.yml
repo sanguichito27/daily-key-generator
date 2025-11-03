@@ -12,18 +12,16 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_TOKEN }}   # usa el token aquí
+          token: ${{ secrets.GH_TOKEN }}   # <- aquí va tu token secreto
 
-      - name: Generate new key
+      - name: Generate new daily key
         run: |
           echo "KEY-$(date +%s)" > key.txt
 
-      - name: Commit and push
+      - name: Commit and push key
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add key.txt
           git commit -m "Actualizar clave diaria"
-          git push
-
-
+          git push origin main
